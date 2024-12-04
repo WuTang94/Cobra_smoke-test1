@@ -1,12 +1,13 @@
 #!/bin/bash
 # Author: Justin Tang
-# Version: 1.1
+# Version: 1.2
 # Date: November 17, 2024
 # Script created with assistance from Microsoft Copilot
 
-packages=("tcl tk" "graphviz" "bison")
+packages=("gcc" "tcl tk" "graphviz" "bison")
 retry_attempts=3
 
+#method to check for prequisite packages
 check_and_install() {
     package=$1
     for ((i=1; i<=retry_attempts; i++)); do
@@ -47,8 +48,19 @@ create_src_directory() {
     fi
 }
 
+# Function to export COBRA with the current directory and verify it 
+set_cobra() { 
+	export COBRA=$(pwd) 
+	# Verify the export 
+	if [ "$COBRA" == "$(pwd)" ]; then 
+		echo "Success: COBRA is set correctly"
+       	else 
+		echo "Fail: COBRA is not set correctly" 
+	fi 
+}
+
 copy_cobra_binary() {
-    if cp cobra /usr/local/bin; then
+    if cp src/cobra /usr/local/bin; then
         echo "cobra copied to /usr/local/bin successfully."
     else
         echo "Failed to copy cobra to /usr/local/bin. Exiting."
@@ -66,7 +78,7 @@ configure_cobra() {
 }
 
 run_basic_cobra_command() {
-    if cobra your_test_file; then
+    if cobra README.md; then
         echo "Basic cobra command ran successfully."
     else
         echo "Failed to run basic cobra command. Exiting."
@@ -98,5 +110,4 @@ create_src_directory
 copy_cobra_binary
 configure_cobra
 run_basic_cobra_command
-run_tcl_tk_gui
-
+#run_tcl_tk_gui
