@@ -60,7 +60,7 @@ set_cobra() {
 }
 
 copy_cobra_binary() {
-    if cp src/cobra /usr/local/bin; then
+    if sudo cp src/cobra /usr/local/bin; then
         echo "cobra copied to /usr/local/bin successfully."
     else
         echo "Failed to copy cobra to /usr/local/bin. Exiting."
